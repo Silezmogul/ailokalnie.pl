@@ -6,6 +6,9 @@
 !static/
 !static/**
 !hero.png
+!CNAME
+!.github/
+!.github/**
 
 # Keep .gitignore itself tracked
 !.gitignore
