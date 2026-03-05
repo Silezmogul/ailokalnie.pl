@@ -1,0 +1,261 @@
+/* Site styles (project-specific overrides + section layout) */
+
+:root {
+  --accent-color: #0a0a0a;
+}
+
+:root[data-tone='sepia'] {
+  --background-color: #f6efe3;
+  --surface-color: #f3e7d3;
+  --default-color: #2b231c;
+  --heading-color: #2b231c;
+  --accent-color: #0a0a0a;
+}
+
+.hero {
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+  padding-top: 10vh;
+  padding-bottom: 6vh;
+}
+
+/* Sepia toggle inside nav menu */
+#navmenu .tone-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid #000;
+  background: #000;
+  color: #fff;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  user-select: none;
+  margin-left: 6px;
+}
+
+#navmenu .tone-toggle:hover {
+  color: #fff;
+  opacity: 0.92;
+}
+
+#navmenu .tone-toggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, #000, transparent 70%);
+  outline-offset: 3px;
+}
+
+/* Hero image alignment */
+.hero .hero-media {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero .hero-media img {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  box-shadow: 0 18px 60px color-mix(in srgb, var(--default-color), transparent 88%);
+}
+
+/* Let title wrap naturally; keep it away from media */
+#hero .display-heading {
+  text-wrap: balance;
+}
+
+/* Hero CTA placement (theme-native) */
+.hero .cta-group {
+  margin-top: 18px;
+  gap: 18px;
+}
+
+/* Bottom CTA: give it its own half-view */
+#how .bottom-cta {
+  margin-top: 9vh !important;
+}
+
+/* Steps should be static (no accordion toggles) */
+#how.faq .faq-header {
+  cursor: default;
+}
+
+#how.faq .faq-toggle {
+  display: none !important;
+}
+
+#how.faq .faq-content {
+  grid-template-rows: 1fr !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Center steps block */
+#how.faq .faq-wrapper {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#how.faq .faq-item {
+  text-align: center;
+}
+
+#how.faq .faq-header {
+  justify-content: center;
+  gap: 12px;
+}
+
+#how.faq .faq-number {
+  flex: 0 0 auto;
+}
+
+#how.faq .faq-content .content-inner {
+  text-align: center;
+}
+
+#how.faq .faq-content {
+  justify-items: center;
+}
+
+#how.faq .faq-content .content-inner {
+  width: 100%;
+  max-width: 56ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Make each section read like its own view (without breaking layout) */
+.section {
+  min-height: 100vh;
+  display: block;
+}
+
+/* Scroll offset so section titles land mid-viewport */
+section.section {
+  scroll-margin-top: 25vh;
+}
+
+.section > .container.section-title {
+  padding-bottom: 40px;
+}
+
+.section.light-background {
+  --background-color: #fafafa;
+}
+
+.section > .container:not(.section-title) {
+  padding-top: 6vh;
+}
+
+.meta-note {
+  font-size: 14px;
+  color: color-mix(in srgb, var(--default-color), transparent 35%);
+}
+
+.hero .btn.btn-ghost {
+  padding: 14px 22px;
+}
+
+/* Match CTA button dimensions across page */
+#how .bottom-cta .btn.btn-ghost {
+  padding: 14px 22px;
+}
+
+/* Ensure ghost buttons always show their frame */
+.btn.btn-ghost {
+  border-color: var(--accent-color) !important;
+}
+
+.footer {
+  box-shadow: none;
+}
+
+/* Co dostajesz: static in-flow arrow under cards */
+#what .what-arrow {
+  margin: 200px auto 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  background: color-mix(in srgb, var(--surface-color), transparent 10%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--default-color), transparent 90%);
+  transition: opacity 180ms ease;
+}
+
+#what .what-arrow i {
+  font-size: 18px;
+  line-height: 0;
+}
+
+/* Tone down "Co dostajesz" cards to match rest */
+#what .skill-item {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--default-color), transparent 92%);
+  box-shadow: none;
+  padding: 18px;
+}
+
+#what .skill-item i {
+  font-size: 22px;
+  margin-bottom: 12px;
+  opacity: 0.9;
+}
+
+#what .skill-item h3 {
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-bottom: 6px;
+}
+
+#what .skill-item p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Reduce perceived gap between sections */
+#how.section {
+  padding-top: 0;
+}
+
+/* Hero arrow (overlay, fades away on scroll) */
+#hero {
+  position: relative;
+}
+
+#hero .hero-arrow {
+  position: absolute;
+  left: 50%;
+  bottom: 80px;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+  background: color-mix(in srgb, var(--surface-color), transparent 10%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--default-color), transparent 90%);
+  opacity: 1;
+  transition: opacity 220ms ease;
+}
+
+#hero .hero-arrow i {
+  font-size: 18px;
+  line-height: 0;
+}

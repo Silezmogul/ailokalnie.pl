@@ -1,0 +1,14 @@
+# Ignore everything by default
+*
+
+# Allow website (only tracked content)
+!index.html
+!static/
+!static/**
+!hero.png
+
+# Keep .gitignore itself tracked
+!.gitignore
+
+# Do not ignore directories so git can traverse for un-ignores
+!*/
