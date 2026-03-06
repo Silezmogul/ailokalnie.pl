@@ -2,6 +2,17 @@
 
 :root {
   --accent-color: #0a0a0a;
+  --background-color: #ffffff;
+  --surface-color: #ffffff;
+  --default-color: #555555;
+  --heading-color: #333333;
+  --nav-color: #555555;
+  --nav-hover-color: #000000;
+  --nav-mobile-background-color: #fafafa;
+  --nav-dropdown-background-color: #ffffff;
+  --nav-dropdown-color: #8f8f8f;
+  --nav-dropdown-hover-color: #000000;
+  --contrast-color: #ffffff;
 }
 
 :root[data-tone='sepia'] {
@@ -10,7 +21,173 @@
   --default-color: #2b231c;
   --heading-color: #2b231c;
   --accent-color: #0a0a0a;
+  --nav-color: #2b231c;
+  --nav-hover-color: #000000;
+  --nav-mobile-background-color: #f3e7d3;
+  --nav-dropdown-background-color: #f3e7d3;
+  --nav-dropdown-color: #2b231c;
+  --nav-dropdown-hover-color: #000000;
 }
+
+/* Baseline typography + colors (template parity subset) */
+body {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* Header + nav: recreate MinimalFolio behavior (without importing the whole template) */
+.header {
+  --background-color: rgba(255, 255, 255, 0);
+  color: var(--default-color);
+  background-color: var(--background-color);
+  padding: 15px 0;
+  transition: all 0.5s;
+  z-index: 997;
+}
+
+
+.header .logo {
+  line-height: 1;
+}
+
+.header .logo h1 {
+  font-size: 26px;
+  margin: 0;
+  font-weight: 500;
+  color: var(--heading-color);
+}
+
+.mobile-nav-toggle {
+  background-color: var(--background-color);
+  padding: 4px;
+  color: var(--nav-color);
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 32px;
+  line-height: 0;
+  cursor: pointer;
+  display: block !important;
+  z-index: 998;
+  transition: 0.3s;
+}
+
+.mobile-nav-toggle:hover {
+  color: var(--nav-hover-color);
+}
+
+.navmenu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: -300px;
+  z-index: 997;
+  transition: 0.3s;
+  width: 300px;
+  overflow: hidden;
+}
+
+
+.navmenu ul {
+  display: block;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  overflow-y: auto;
+  transition: 0.3s;
+  z-index: 998;
+}
+
+.navmenu a,
+.navmenu a:focus {
+  color: var(--nav-dropdown-color);
+  padding: 10px 20px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.navmenu a:hover,
+.navmenu .active,
+.navmenu .active:focus {
+  color: var(--nav-dropdown-hover-color);
+}
+
+.navmenu a i,
+.navmenu a:focus i {
+  font-size: 12px;
+  line-height: 0;
+  margin-left: 5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: 0.3s;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 90%);
+}
+
+.navmenu a i:hover,
+.navmenu a:focus i:hover {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+}
+
+.navmenu .active i,
+.navmenu .active:focus i {
+  background-color: var(--accent-color);
+  color: var(--contrast-color);
+  transform: rotate(180deg);
+}
+
+.mobile-nav-active {
+  overflow: hidden;
+}
+
+.mobile-nav-active .mobile-nav-toggle {
+  right: 310px;
+  font-size: 36px;
+}
+
+.mobile-nav-active .navmenu {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: var(--nav-mobile-background-color);
+  transition: 0.3s;
+}
+
+
 
 .hero {
   min-height: 92vh;
@@ -18,34 +195,6 @@
   align-items: center;
   padding-top: 10vh;
   padding-bottom: 6vh;
-}
-
-/* Sepia toggle inside nav menu */
-#navmenu .tone-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 34px;
-  padding: 0 12px;
-  border-radius: 999px;
-  border: 1px solid #000;
-  background: #000;
-  color: #fff;
-  font-size: 13px;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  user-select: none;
-  margin-left: 6px;
-}
-
-#navmenu .tone-toggle:hover {
-  color: #fff;
-  opacity: 0.92;
-}
-
-#navmenu .tone-toggle:focus-visible {
-  outline: 3px solid color-mix(in srgb, #000, transparent 70%);
-  outline-offset: 3px;
 }
 
 /* Hero image alignment */

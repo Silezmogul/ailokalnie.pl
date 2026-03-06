@@ -15,7 +15,7 @@
   </head>
 
   <body class="index-page">
-    <header id="header" class="header d-flex align-items-center position-relative">
+    <header id="header" class="header d-flex align-items-center sticky-top">
       <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
         <a href="#" class="logo d-flex align-items-center">
           <h1 class="sitename">ailokalnie.pl</h1>
@@ -27,11 +27,6 @@
             <li><a href="#what">Co dostajesz</a></li>
             <li><a href="#how">Jak to działa</a></li>
             <li><a href="https://forms.gle/grQfb31PTHeBqErj9" target="_blank" rel="noopener noreferrer">Kontakt</a></li>
-            <li>
-              <a href="#" class="tone-toggle" id="toneToggle" role="button" aria-pressed="false" title="Tryb sepia">
-                Sepia
-              </a>
-            </li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list" aria-label="Menu" role="button" tabindex="0"></i>
         </nav>
@@ -196,130 +191,5 @@
     <script src="./static/js/bootstrap.bundle.min.js"></script>
     <script src="./static/js/aos.js"></script>
     <script src="./static/js/site.js"></script>
-    <script>
-      (function () {
-        const key = 'tone';
-        const root = document.documentElement;
-        const btn = document.getElementById('toneToggle');
-        if (!btn) return;
-
-        const apply = (tone) => {
-          if (tone === 'sepia') root.setAttribute('data-tone', 'sepia');
-          else root.removeAttribute('data-tone');
-          const pressed = tone === 'sepia';
-          btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
-        };
-
-        const saved = (function () {
-          try {
-            return localStorage.getItem(key);
-          } catch {
-            return null;
-          }
-        })();
-
-        apply(saved === 'sepia' ? 'sepia' : 'default');
-
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const current = root.getAttribute('data-tone') === 'sepia' ? 'sepia' : 'default';
-          const next = current === 'sepia' ? 'default' : 'sepia';
-          apply(next);
-          try {
-            localStorage.setItem(key, next === 'sepia' ? 'sepia' : '');
-          } catch {}
-        });
-      })();
-
-      (function () {
-        // Smooth anchor scroll with mid-viewport landing.
-        document.addEventListener('click', (e) => {
-          const a = e.target.closest('a[href^="#"]');
-          if (!a) return;
-          const href = a.getAttribute('href');
-          if (!href || href === '#') return;
-          const id = href.slice(1);
-          const el = document.getElementById(id);
-          if (!el) return;
-
-          e.preventDefault();
-
-          const r = el.getBoundingClientRect();
-          const absoluteTop = window.scrollY + r.top;
-          const targetY = Math.max(0, absoluteTop - (window.innerHeight * 0.25));
-          window.scrollTo({ top: targetY, behavior: 'smooth' });
-        });
-
-        const update = () => {
-          const vh = window.innerHeight || document.documentElement.clientHeight;
-          const what = document.getElementById('what');
-          const how = document.getElementById('how');
-          const arrow = what ? what.querySelector('.what-arrow') : null;
-          if (!what || !how || !arrow) return;
-
-          const wr = what.getBoundingClientRect();
-          const hr = how.getBoundingClientRect();
-
-          // Show while viewport center is inside #what.
-          const centerY = vh * 0.45;
-          const centerInWhat = wr.top <= centerY && wr.bottom >= centerY;
-
-          // Hide as soon as the next section enters the viewport.
-          // Hide earlier: as soon as next section is near the viewport.
-          const howEntering = hr.top <= (vh * 1.15);
-
-          // Additional guard: if the user has scrolled down a bit within #what,
-          // we want the arrow to disappear very quickly once #how is near.
-          const show = centerInWhat && !howEntering;
-          arrow.style.opacity = show ? '1' : '0';
-          arrow.style.pointerEvents = show ? 'auto' : 'none';
-
-          // Hero arrow: visible at top, fades away on very first scroll.
-          const hero = document.getElementById('hero');
-          const heroArrow = hero ? hero.querySelector('.hero-arrow') : null;
-          if (hero && heroArrow) {
-            const hr = hero.getBoundingClientRect();
-            const heroVisible = hr.bottom > 0 && hr.top < vh;
-            const scrolledPx = Math.max(0, -hr.top);
-            const fadeEnd = 10;
-            const showHero = heroVisible && scrolledPx < fadeEnd;
-            heroArrow.style.opacity = showHero ? '1' : '0';
-            heroArrow.style.pointerEvents = showHero ? 'auto' : 'none';
-          }
-        };
-
-        const what = document.getElementById('what');
-        const how = document.getElementById('how');
-        const arrow = what ? what.querySelector('.what-arrow') : null;
-        if (arrow && how) {
-          arrow.addEventListener('click', (e) => {
-            e.preventDefault();
-            how.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        }
-
-        const hero = document.getElementById('hero');
-        const heroArrow = hero ? hero.querySelector('.hero-arrow') : null;
-        if (heroArrow && what) {
-          heroArrow.addEventListener('click', (e) => {
-            e.preventDefault();
-            what.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        }
-
-        let raf = 0;
-        const schedule = () => {
-          if (raf) return;
-          raf = requestAnimationFrame(() => {
-            raf = 0;
-            update();
-          });
-        };
-
-        window.addEventListener('scroll', schedule, { passive: true });
-        window.addEventListener('resize', schedule);
-        schedule();
-      })();
-    </script>
   </body>
 </html>
