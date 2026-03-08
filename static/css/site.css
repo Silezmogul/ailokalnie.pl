@@ -325,6 +325,13 @@ section.section {
   box-shadow: none;
 }
 
+/* Disable AOS animation delay on mobile devices (parity) */
+@media screen and (max-width: 768px) {
+  [data-aos-delay] {
+    transition-delay: 0 !important;
+  }
+}
+
 /* Co dostajesz: static in-flow arrow under cards */
 #what .what-arrow {
   margin: 200px auto 0;
