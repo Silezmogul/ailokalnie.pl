@@ -1,47 +1,40 @@
 (() => {
   'use strict';
 
-  // Apply .scrolled class to the body as the page is scrolled down
-  // (MinimalFolio behavior used by header/nav styling)
-  const toggleScrolled = () => {
-    const header = document.querySelector('#header');
-    if (!header) return;
-
-    // Only apply if header is configured as a sticky-like header.
-    if (!header.classList.contains('scroll-up-sticky') && !header.classList.contains('sticky-top') && !header.classList.contains('fixed-top')) {
-      return;
-    }
-
-    window.scrollY > 100 ? document.body.classList.add('scrolled') : document.body.classList.remove('scrolled');
-  };
-
-  // Mobile nav toggle (Bootstrap icons)
-  const mobileNavToggleBtn = document.querySelector('.mobile-nav-toggle');
+  // Dropdown menu (fresh implementation)
+  const navToggleBtn = document.querySelector('.mobile-nav-toggle');
+  const navMenu = document.querySelector('#navmenu');
   const body = document.body;
 
-  const toggleMobileNav = () => {
-    body.classList.toggle('mobile-nav-active');
-    if (mobileNavToggleBtn) {
-      mobileNavToggleBtn.classList.toggle('bi-list');
-      mobileNavToggleBtn.classList.toggle('bi-x');
-    }
+  const setMenuOpen = (open) => {
+    if (!navToggleBtn || !navMenu) return;
+    body.classList.toggle('nav-open', open);
+    navToggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   };
 
-  if (mobileNavToggleBtn) {
-    mobileNavToggleBtn.addEventListener('click', toggleMobileNav);
-  }
+  const toggleMenu = () => {
+    const open = body.classList.contains('nav-open');
+    setMenuOpen(!open);
+  };
 
-  // Hide mobile nav on same-page/hash links
-  document.querySelectorAll('#navmenu a').forEach((a) => {
-    a.addEventListener('click', () => {
-      if (document.querySelector('.mobile-nav-active')) {
-        toggleMobileNav();
-      }
+  if (navToggleBtn && navMenu) {
+    navToggleBtn.addEventListener('click', toggleMenu);
+
+    navMenu.querySelectorAll('a').forEach((a) => {
+      a.addEventListener('click', () => setMenuOpen(false));
     });
-  });
 
-  document.addEventListener('scroll', toggleScrolled, { passive: true });
-  window.addEventListener('load', toggleScrolled);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!body.classList.contains('nav-open')) return;
+      const t = e.target;
+      if (t instanceof Element && (t.closest('#navmenu') || t.closest('.mobile-nav-toggle'))) return;
+      setMenuOpen(false);
+    });
+  }
 
   // AOS init (if loaded)
   window.addEventListener('load', () => {
@@ -132,4 +125,38 @@
     window.addEventListener('resize', schedule);
     schedule();
   })();
+
+  // Correct scrolling position upon page load for URLs containing hash links.
+  window.addEventListener('load', () => {
+    if (!window.location.hash) return;
+    if (!document.querySelector(window.location.hash)) return;
+    setTimeout(() => {
+      const section = document.querySelector(window.location.hash);
+      if (!section) return;
+      const scrollMarginTop = getComputedStyle(section).scrollMarginTop;
+      window.scrollTo({
+        top: section.offsetTop - parseInt(scrollMarginTop, 10),
+        behavior: 'smooth',
+      });
+    }, 100);
+  });
+
+  // Navmenu Scrollspy
+  const navmenulinks = document.querySelectorAll('.navmenu a');
+  const navmenuScrollspy = () => {
+    navmenulinks.forEach((navmenulink) => {
+      if (!navmenulink.hash) return;
+      const section = document.querySelector(navmenulink.hash);
+      if (!section) return;
+      const position = window.scrollY + 200;
+      if (position >= section.offsetTop && position <= section.offsetTop + section.offsetHeight) {
+        document.querySelectorAll('.navmenu a.active').forEach((link) => link.classList.remove('active'));
+        navmenulink.classList.add('active');
+      } else {
+        navmenulink.classList.remove('active');
+      }
+    });
+  };
+  window.addEventListener('load', navmenuScrollspy);
+  document.addEventListener('scroll', navmenuScrollspy);
 })();

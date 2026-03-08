@@ -1,6 +1,9 @@
 /* Site styles (project-specific overrides + section layout) */
 
 :root {
+  --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --heading-font: "Quicksand", sans-serif;
+  --nav-font: "Raleway", sans-serif;
   --accent-color: #0a0a0a;
   --background-color: #ffffff;
   --surface-color: #ffffff;
@@ -15,25 +18,16 @@
   --contrast-color: #ffffff;
 }
 
-:root[data-tone='sepia'] {
-  --background-color: #f6efe3;
-  --surface-color: #f3e7d3;
-  --default-color: #2b231c;
-  --heading-color: #2b231c;
-  --accent-color: #0a0a0a;
-  --nav-color: #2b231c;
-  --nav-hover-color: #000000;
-  --nav-mobile-background-color: #f3e7d3;
-  --nav-dropdown-background-color: #f3e7d3;
-  --nav-dropdown-color: #2b231c;
-  --nav-dropdown-hover-color: #000000;
+/* Smooth scroll (parity) */
+:root {
+  scroll-behavior: smooth;
 }
 
 /* Baseline typography + colors (template parity subset) */
 body {
   color: var(--default-color);
   background-color: var(--background-color);
-  font-family: 'Roboto', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif;
+  font-family: var(--default-font);
 }
 
 a {
@@ -54,7 +48,7 @@ h4,
 h5,
 h6 {
   color: var(--heading-color);
-  font-family: 'Quicksand', sans-serif;
+  font-family: var(--heading-font);
 }
 
 /* Header + nav: recreate MinimalFolio behavior (without importing the whole template) */
@@ -65,6 +59,112 @@ h6 {
   padding: 15px 0;
   transition: all 0.5s;
   z-index: 997;
+}
+
+/* Preloader (parity) */
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background-color: var(--background-color);
+  transition: all 0.6s ease-out;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#preloader div {
+  width: 13px;
+  height: 13px;
+  background-color: var(--accent-color);
+  border-radius: 50%;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+  position: absolute;
+  left: 50%;
+}
+
+#preloader div:nth-child(1) {
+  left: calc(50% + 8px);
+  animation: animate-preloader-1 0.6s infinite;
+}
+
+#preloader div:nth-child(2) {
+  left: calc(50% + 8px);
+  animation: animate-preloader-2 0.6s infinite;
+}
+
+#preloader div:nth-child(3) {
+  left: calc(50% + 32px);
+  animation: animate-preloader-2 0.6s infinite;
+}
+
+#preloader div:nth-child(4) {
+  left: calc(50% + 56px);
+  animation: animate-preloader-3 0.6s infinite;
+}
+
+@keyframes animate-preloader-1 {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes animate-preloader-3 {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes animate-preloader-2 {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+/* Scroll Top Button (parity) */
+.scroll-top {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  right: 15px;
+  bottom: 15px;
+  z-index: 99999;
+  background-color: var(--accent-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  transition: all 0.4s;
+}
+
+.scroll-top i {
+  font-size: 24px;
+  color: var(--contrast-color);
+  line-height: 0;
+}
+
+.scroll-top:hover {
+  background-color: color-mix(in srgb, var(--accent-color), transparent 20%);
+  color: var(--contrast-color);
+}
+
+.scroll-top.active {
+  visibility: visible;
+  opacity: 1;
 }
 
 
@@ -79,34 +179,102 @@ h6 {
   color: var(--heading-color);
 }
 
+/* Mobile dropdown toggle (new, icon-font independent) */
 .mobile-nav-toggle {
-  background-color: var(--background-color);
-  padding: 4px;
-  color: var(--nav-color);
+  --_bg: color-mix(in srgb, var(--background-color), transparent 8%);
+  background: var(--_bg);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 85%);
+  color: var(--heading-color);
   position: fixed;
-  top: 20px;
-  right: 20px;
-  font-size: 32px;
-  line-height: 0;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
   cursor: pointer;
-  display: block !important;
-  z-index: 998;
-  transition: 0.3s;
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--default-color), transparent 88%);
+}
+
+.mobile-nav-toggle:hover {
+  border-color: color-mix(in srgb, var(--default-color), transparent 70%);
+}
+
+.mobile-nav-toggle-icon {
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  position: relative;
+  display: block;
+  transition: none;
+}
+
+.mobile-nav-toggle-icon::before,
+.mobile-nav-toggle-icon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: none;
+}
+
+.mobile-nav-toggle-icon::before {
+  top: -7px;
+}
+
+.mobile-nav-toggle-icon::after {
+  top: 7px;
+}
+
+.nav-open .mobile-nav-toggle-icon::before,
+.nav-open .mobile-nav-toggle-icon::after {
+  opacity: 0;
+}
+
+.nav-open .mobile-nav-toggle-icon {
+  opacity: 0;
+}
+
+.mobile-nav-toggle::after {
+  content: '×';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+  opacity: 0;
+  transition: none;
+}
+
+.nav-open .mobile-nav-toggle::after {
+  opacity: 1;
 }
 
 .mobile-nav-toggle:hover {
   color: var(--nav-hover-color);
 }
 
+/* Mobile dropdown menu panel */
 .navmenu {
   position: fixed;
-  top: 0;
-  bottom: 0;
-  right: -300px;
-  z-index: 997;
-  transition: 0.3s;
-  width: 300px;
-  overflow: hidden;
+  top: 68px;
+  right: 16px;
+  z-index: 999;
+  width: min(320px, calc(100vw - 32px));
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
 }
 
 
@@ -115,16 +283,20 @@ h6 {
   list-style: none;
   padding: 10px 0;
   margin: 0;
+  max-height: calc(100vh - 120px);
   overflow-y: auto;
-  transition: 0.3s;
   z-index: 998;
+  background-color: var(--nav-dropdown-background-color);
+  border: 1px solid color-mix(in srgb, var(--default-color), transparent 86%);
+  border-radius: 14px;
+  box-shadow: 0 18px 60px color-mix(in srgb, var(--default-color), transparent 88%);
 }
 
 .navmenu a,
 .navmenu a:focus {
   color: var(--nav-dropdown-color);
   padding: 10px 20px;
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--nav-font);
   font-size: 15px;
   font-weight: 400;
   display: flex;
@@ -168,33 +340,106 @@ h6 {
   transform: rotate(180deg);
 }
 
-.mobile-nav-active {
-  overflow: hidden;
+.navmenu .dropdown ul {
+  position: static;
+  display: none;
+  z-index: 99;
+  padding: 10px 0;
+  margin: 10px 20px;
+  box-shadow: none;
+  transition: all 0.5s ease-in-out;
 }
 
-.mobile-nav-active .mobile-nav-toggle {
-  right: 310px;
-  font-size: 36px;
+.navmenu .dropdown > .dropdown-active {
+  display: block;
+  background-color: var(--nav-dropdown-background-color);
+  border: 1px solid color-mix(in srgb, var(--nav-dropdown-color), transparent 90%);
 }
 
-.mobile-nav-active .navmenu {
-  position: fixed;
-  overflow: hidden;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  background-color: var(--nav-mobile-background-color);
-  transition: 0.3s;
+/* Keep scrollbars stable to avoid layout shift */
+html {
+  scrollbar-gutter: stable;
+}
+
+.nav-open {
+  overflow: auto;
+}
+
+.nav-open .navmenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 
 
+/* Hero Section (parity) */
 .hero {
-  min-height: 92vh;
+  padding-top: 60px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  padding-top: 10vh;
-  padding-bottom: 6vh;
+  padding-bottom: 120px;
+}
+
+/* Push hero content down without moving the arrow */
+.hero > .container {
+  padding-top: 125px;
+}
+
+.hero .intro .eyebrow .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  flex: 0 0 auto;
+}
+
+.hero .intro .eyebrow .text {
+  font-family: var(--nav-font);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--default-color), transparent 30%);
+}
+
+.hero .intro .display-heading {
+  font-family: var(--heading-font);
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.hero .intro .lead {
+  font-size: 18px;
+  line-height: 1.8;
+  color: color-mix(in srgb, var(--default-color), transparent 10%);
+  max-width: 58ch;
+}
+
+.hero .btn-ghost {
+  --_border: color-mix(in srgb, var(--default-color), transparent 80%);
+  --_hover: color-mix(in srgb, var(--accent-color), transparent 85%);
+  border: 1px solid var(--_border);
+  color: var(--default-color);
+  background-color: var(--surface-color);
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hero .btn-ghost:hover,
+.hero .btn-ghost:focus {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent-color), transparent 90%);
+  outline: none;
+}
+
+.hero .btn-ghost:active {
+  transform: translateY(1px);
 }
 
 /* Hero image alignment */
@@ -230,76 +475,225 @@ h6 {
 }
 
 /* Steps should be static (no accordion toggles) */
-#how.faq .faq-header {
-  cursor: default;
+/* FAQ Section (parity subset from MinimalFolio main.css) */
+.faq .faq-item {
+  margin-bottom: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-#how.faq .faq-toggle {
-  display: none !important;
+.faq .faq-item:last-child {
+  border-bottom: none;
 }
 
-#how.faq .faq-content {
-  grid-template-rows: 1fr !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+.faq .faq-item.faq-active .faq-header .faq-number {
+  color: var(--accent-color);
+  font-weight: 500;
 }
 
-/* Center steps block */
-#how.faq .faq-wrapper {
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
+.faq .faq-item.faq-active .faq-header h4 {
+  color: var(--accent-color);
 }
 
-#how.faq .faq-item {
-  text-align: center;
+.faq .faq-item.faq-active .faq-header .faq-toggle {
+  color: var(--accent-color);
+  transform: rotate(0deg);
 }
 
-#how.faq .faq-header {
+.faq .faq-item.faq-active .faq-header .faq-toggle i.bi-plus {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+
+.faq .faq-item.faq-active .faq-header .faq-toggle i.bi-dash {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.faq .faq-item.faq-active .faq-content {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  opacity: 1;
+}
+
+.faq .faq-item:not(.faq-active) .faq-header .faq-toggle i.bi-plus {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.faq .faq-item:not(.faq-active) .faq-header .faq-toggle i.bi-dash {
+  opacity: 0;
+  transform: rotate(-90deg);
+}
+
+.faq .faq-item .faq-header {
+  display: flex;
+  align-items: center;
+  padding: 40px 0;
+  cursor: pointer;
+  gap: 0;
+  transition: all 0.3s ease;
+}
+
+.faq .faq-item .faq-header:hover .faq-number {
+  transform: scale(1.1);
+}
+
+.faq .faq-item .faq-header:hover .faq-toggle {
+  transform: scale(1.1);
+}
+
+.faq .faq-item .faq-header .faq-number {
+  flex-shrink: 0;
+  width: 80px;
+  font-family: var(--heading-font);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: color-mix(in srgb, var(--default-color), transparent 50%);
+  transition: all 0.3s ease;
+  letter-spacing: -0.02em;
+}
+
+.faq .faq-item .faq-header h4 {
+  flex: 1;
+  margin: 0;
+  font-family: var(--heading-font);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--heading-color);
+  transition: all 0.3s ease;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  margin-right: 20px;
+}
+
+.faq .faq-item .faq-header .faq-toggle {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 12px;
+  color: color-mix(in srgb, var(--default-color), transparent 40%);
+  font-size: 18px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
-#how.faq .faq-number {
-  flex: 0 0 auto;
+.faq .faq-item .faq-header .faq-toggle i {
+  position: absolute;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-#how.faq .faq-content .content-inner {
+.faq .faq-item .faq-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.faq .faq-item .faq-content .content-inner {
+  padding: 0 80px 40px 80px;
+  overflow: hidden;
+}
+
+.faq .faq-item .faq-content .content-inner p {
+  margin: 0;
+  color: color-mix(in srgb, var(--default-color), transparent 25%);
+  line-height: 1.8;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .faq .faq-item .faq-header {
+    padding: 30px 0;
+  }
+
+  .faq .faq-item .faq-header .faq-number {
+    width: 60px;
+    font-size: 1rem;
+  }
+
+  .faq .faq-item .faq-header h4 {
+    font-size: 1.1rem;
+  }
+
+  .faq .faq-item .faq-header .faq-toggle {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+  }
+
+  .faq .faq-item .faq-content .content-inner {
+    padding: 0 60px 30px 60px;
+  }
+
+  .faq .faq-item .faq-content .content-inner p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .faq .faq-item .faq-header {
+    padding: 25px 0;
+  }
+
+  .faq .faq-item .faq-header .faq-number {
+    width: 50px;
+    font-size: 0.9rem;
+  }
+
+  .faq .faq-item .faq-header h4 {
+    font-size: 1rem;
+    margin-right: 15px;
+  }
+
+  .faq .faq-item .faq-content .content-inner {
+    padding: 0 50px 25px 50px;
+  }
+}
+
+/* Global Sections + Section Titles (parity) */
+section,
+.section {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  padding: 60px 0;
+  overflow: clip;
+}
+
+.section-title {
   text-align: center;
+  padding-bottom: 60px;
+  position: relative;
 }
 
-#how.faq .faq-content {
-  justify-items: center;
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 400;
+  margin-bottom: 15px;
 }
 
-#how.faq .faq-content .content-inner {
-  width: 100%;
-  max-width: 56ch;
-  margin-left: auto;
-  margin-right: auto;
+.section-title p {
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 300;
 }
 
-/* Make each section read like its own view (without breaking layout) */
+/* Keep custom section-as-view behavior from the reference snapshot */
 .section {
   min-height: 100vh;
   display: block;
 }
 
-/* Scroll offset so section titles land mid-viewport */
 section.section {
   scroll-margin-top: 25vh;
 }
 
-.section > .container.section-title {
-  padding-bottom: 40px;
-}
-
 .section.light-background {
-  --background-color: #fafafa;
-}
-
-.section > .container:not(.section-title) {
-  padding-top: 6vh;
+  --background-color: var(--background-color);
 }
 
 .meta-note {
@@ -321,6 +715,21 @@ section.section {
   border-color: var(--accent-color) !important;
 }
 
+/* Global Footer (parity base) */
+.footer {
+  color: var(--default-color);
+  background-color: var(--background-color);
+  font-size: 14px;
+  padding: 40px 0;
+  position: relative;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+}
+
+.footer .copyright p {
+  margin-bottom: 0;
+}
+
+/* Reference snapshot override: footer without shadow */
 .footer {
   box-shadow: none;
 }

@@ -10,6 +10,10 @@
 !.github/
 !.github/**
 
+# Tooling artifacts
+node_modules/
+node_modules/**
+
 Inspirations/
 Inspirations/**
 

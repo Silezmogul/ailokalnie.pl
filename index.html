@@ -15,21 +15,24 @@
   </head>
 
   <body class="index-page">
-    <header id="header" class="header d-flex align-items-center sticky-top">
+    <header id="header" class="header d-flex align-items-center position-relative">
       <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
         <a href="#" class="logo d-flex align-items-center">
           <h1 class="sitename">ailokalnie.pl</h1>
         </a>
 
-        <nav id="navmenu" class="navmenu">
+        <nav id="navmenu" class="navmenu" aria-label="Primary">
           <ul>
             <li><a href="#hero" class="active">Start</a></li>
             <li><a href="#what">Co dostajesz</a></li>
             <li><a href="#how">Jak to działa</a></li>
             <li><a href="https://forms.gle/grQfb31PTHeBqErj9" target="_blank" rel="noopener noreferrer">Kontakt</a></li>
           </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list" aria-label="Menu" role="button" tabindex="0"></i>
         </nav>
+
+        <button class="mobile-nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navmenu">
+          <span class="mobile-nav-toggle-icon" aria-hidden="true"></span>
+        </button>
       </div>
     </header>
 
@@ -130,6 +133,10 @@
                   <div class="faq-header">
                     <span class="faq-number">01</span>
                     <h4>Zobacz co potrzebujemy na start</h4>
+                    <div class="faq-toggle">
+                      <i class="bi bi-plus"></i>
+                      <i class="bi bi-dash"></i>
+                    </div>
                   </div>
                   <div class="faq-content">
                     <div class="content-inner">
@@ -142,6 +149,10 @@
                   <div class="faq-header">
                     <span class="faq-number">02</span>
                     <h4>Porozmawiaj wstępnie</h4>
+                    <div class="faq-toggle">
+                      <i class="bi bi-plus"></i>
+                      <i class="bi bi-dash"></i>
+                    </div>
                   </div>
                   <div class="faq-content">
                     <div class="content-inner">
@@ -154,6 +165,10 @@
                   <div class="faq-header">
                     <span class="faq-number">03</span>
                     <h4>Wdrożenie (90 minut)</h4>
+                    <div class="faq-toggle">
+                      <i class="bi bi-plus"></i>
+                      <i class="bi bi-dash"></i>
+                    </div>
                   </div>
                   <div class="faq-content">
                     <div class="content-inner">
@@ -186,6 +201,8 @@
         </div>
       </div>
     </footer>
+
+
 
 
     <script src="./static/js/bootstrap.bundle.min.js"></script>
