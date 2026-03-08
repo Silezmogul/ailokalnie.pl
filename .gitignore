@@ -20,6 +20,19 @@ Inspirations/ailokalnie.pl-website/Inspirations/
 Inspirations/ailokalnie.pl-website/Notes/
 Inspirations/ailokalnie.pl-website/backup/
 
+# Ensure nested contents stay ignored too
+Inspirations/ailokalnie.pl-website/Inspirations/**
+Inspirations/ailokalnie.pl-website/Notes/**
+Inspirations/ailokalnie.pl-website/backup/**
+
+# Ignore spec-adjacent assets in the inspiration snapshot
+Inspirations/ailokalnie.pl-website/static/
+Inspirations/ailokalnie.pl-website/static/**
+
+# But keep the specific spec files tracked
+!Inspirations/ailokalnie.pl-website/static/css/main.css
+!Inspirations/ailokalnie.pl-website/static/js/main.js
+
 # Keep .gitignore itself tracked
 !.gitignore
 
