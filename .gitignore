@@ -10,6 +10,16 @@
 !.github/
 !.github/**
 
+# Allow in-repo inspiration reference (parity spec)
+!Inspirations/
+!Inspirations/ailokalnie.pl-website/
+!Inspirations/ailokalnie.pl-website/**
+
+# Do not track large third-party demo assets; keep just the minimal local spec
+Inspirations/ailokalnie.pl-website/Inspirations/
+Inspirations/ailokalnie.pl-website/Notes/
+Inspirations/ailokalnie.pl-website/backup/
+
 # Keep .gitignore itself tracked
 !.gitignore
 

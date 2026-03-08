@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ailokalnie.pl</title>
+    <meta name="description" content="Umożliwiamy niezależną pracę z AI bez doświadczenia, na Twoim zwykłym laptopie lub serwerze, bez modeli AI z internetu." />
+
+    <link rel="stylesheet" href="./static/css/fonts.css" />
+
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./static/css/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./static/css/aos.css" />
+    <link rel="stylesheet" href="./static/css/main.css" />
+
+    <style>
+      :root {
+        --accent-color: #0a0a0a;
+      }
+
+      :root[data-tone='sepia'] {
+        --background-color: #f6efe3;
+        --surface-color: #f3e7d3;
+        --default-color: #2b231c;
+        --heading-color: #2b231c;
+        --accent-color: #0a0a0a;
+      }
+
+      /* Keep theme nav, but simplify items */
+
+      .hero {
+        min-height: 92vh;
+        display: flex;
+        align-items: center;
+        padding-top: 10vh;
+        padding-bottom: 6vh;
+      }
+
+      /* Sepia toggle inside nav menu */
+      #navmenu .tone-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid #000;
+        background: #000;
+        color: #fff;
+        font-size: 13px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+        user-select: none;
+        margin-left: 6px;
+      }
+
+      #navmenu .tone-toggle:hover {
+        color: #fff;
+        opacity: 0.92;
+      }
+
+      #navmenu .tone-toggle:focus-visible {
+        outline: 3px solid color-mix(in srgb, #000, transparent 70%);
+        outline-offset: 3px;
+      }
+
+      /* Hero image alignment */
+      .hero .hero-media {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero .hero-media img {
+        width: 100%;
+        max-width: 640px;
+        height: auto;
+        display: block;
+        border-radius: 18px;
+        box-shadow: 0 18px 60px color-mix(in srgb, var(--default-color), transparent 88%);
+      }
+
+      /* Let title wrap naturally; keep it away from media */
+      #hero .display-heading {
+        text-wrap: balance;
+      }
+
+      /* Hero CTA placement (theme-native) */
+      .hero .cta-group {
+        margin-top: 18px;
+        gap: 18px;
+      }
+
+      /* Bottom CTA: give it its own half-view */
+      #how .bottom-cta {
+        margin-top: 9vh !important;
+      }
+
+      /* Steps should be static (no accordion toggles) */
+      #how.faq .faq-header {
+        cursor: default;
+      }
+
+      #how.faq .faq-toggle {
+        display: none !important;
+      }
+
+      #how.faq .faq-content {
+        grid-template-rows: 1fr !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+      }
+
+      /* Center steps block */
+      #how.faq .faq-wrapper {
+        max-width: 760px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #how.faq .faq-item {
+        text-align: center;
+      }
+
+      #how.faq .faq-header {
+        justify-content: center;
+        gap: 12px;
+      }
+
+      #how.faq .faq-number {
+        flex: 0 0 auto;
+      }
+
+      #how.faq .faq-content .content-inner {
+        text-align: center;
+      }
+
+      #how.faq .faq-content {
+        justify-items: center;
+      }
+
+      #how.faq .faq-content .content-inner {
+        width: 100%;
+        max-width: 56ch;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+
+      /* Make each section read like its own view (without breaking layout) */
+      .section {
+        min-height: 100vh;
+        display: block;
+      }
+
+      /* Scroll offset so section titles land mid-viewport */
+      section.section {
+        scroll-margin-top: 25vh;
+      }
+
+      .section > .container.section-title {
+        padding-bottom: 40px;
+      }
+
+      .section.light-background {
+        --background-color: #fafafa;
+      }
+
+      .section > .container:not(.section-title) {
+        padding-top: 6vh;
+      }
+
+      .meta-note {
+        font-size: 14px;
+        color: color-mix(in srgb, var(--default-color), transparent 35%);
+      }
+
+      .hero .cta-group {
+        gap: 18px;
+      }
+
+      .hero .btn.btn-ghost {
+        padding: 14px 22px;
+      }
+
+      /* Match CTA button dimensions across page */
+      #how .bottom-cta .btn.btn-ghost {
+        padding: 14px 22px;
+      }
+
+      /* Ensure ghost buttons always show their frame */
+      .btn.btn-ghost {
+        border-color: var(--accent-color) !important;
+      }
+
+
+      .footer {
+        box-shadow: none;
+      }
+
+      /* Co dostajesz: static in-flow arrow under cards */
+      #what .what-arrow {
+        margin: 200px auto 0;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+        background: color-mix(in srgb, var(--surface-color), transparent 10%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-color);
+        box-shadow: 0 12px 40px color-mix(in srgb, var(--default-color), transparent 90%);
+        transition: opacity 180ms ease;
+      }
+
+      #what .what-arrow i {
+        font-size: 18px;
+        line-height: 0;
+      }
+
+      /* Tone down "Co dostajesz" cards to match rest */
+      #what .skill-item {
+        background: transparent;
+        border-color: color-mix(in srgb, var(--default-color), transparent 92%);
+        box-shadow: none;
+        padding: 18px;
+      }
+
+      #what .skill-item i {
+        font-size: 22px;
+        margin-bottom: 12px;
+        opacity: 0.9;
+      }
+
+      #what .skill-item h3 {
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+        margin-bottom: 6px;
+      }
+
+      #what .skill-item p {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      /* Reduce perceived gap between sections */
+      #how.section {
+        padding-top: 0;
+      }
+
+      /* Hero arrow (overlay, fades away on scroll) */
+      #hero {
+        position: relative;
+      }
+
+      #hero .hero-arrow {
+        position: absolute;
+        left: 50%;
+        bottom: 80px;
+        transform: translateX(-50%);
+        z-index: 10;
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 1px solid color-mix(in srgb, var(--default-color), transparent 80%);
+        background: color-mix(in srgb, var(--surface-color), transparent 10%);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent-color);
+        box-shadow: 0 12px 40px color-mix(in srgb, var(--default-color), transparent 90%);
+        opacity: 1;
+        transition: opacity 220ms ease;
+      }
+
+      #hero .hero-arrow i {
+        font-size: 18px;
+        line-height: 0;
+      }
+
+    </style>
+  </head>
+
+  <body class="index-page">
+    <header id="header" class="header d-flex align-items-center position-relative">
+      <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+        <a href="#" class="logo d-flex align-items-center">
+          <h1 class="sitename">ailokalnie.pl</h1>
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="#hero" class="active">Start</a></li>
+            <li><a href="#what">Co dostajesz</a></li>
+            <li><a href="#how">Jak to działa</a></li>
+            <li><a href="https://forms.gle/grQfb31PTHeBqErj9" target="_blank" rel="noopener noreferrer">Kontakt</a></li>
+            <li>
+              <a href="#" class="tone-toggle" id="toneToggle" role="button" aria-pressed="false" title="Tryb sepia">
+                Sepia
+              </a>
+            </li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list" aria-label="Menu" role="button" tabindex="0"></i>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main">
+      <section id="hero" class="hero section">
+        <div class="container" data-aos="fade-up" data-aos-delay="80">
+          <div class="row align-items-center gx-5 gy-5">
+            <div class="col-lg-7">
+              <div class="intro" data-aos="fade-right" data-aos-delay="140">
+                <div class="eyebrow d-inline-flex align-items-center gap-2 mb-3">
+                  <span class="dot"></span>
+                  <span class="text">AI lokalnie, bez chmury</span>
+                </div>
+
+                <h1 class="display-heading mb-3">Niezależna praca z AI bez modeli z internetu</h1>
+
+                <p class="lead mb-4">
+                  Umożliwiamy niezależną pracę z AI bez doświadczenia, na Twoim zwykłym laptopie lub serwerze, bez modeli AI z internetu.
+                </p>
+
+                <p class="mb-4" style="max-width: 70ch; line-height: 1.8;">
+                  Pracujemy z osobami i zespołami, które potrzebują dostępu do AI lokalnie. Umożliwiamy pracę z poufnymi i wrażliwymi
+                  informacjami z zachowaniem niezależności, kontroli i prywatności. Bez wysyłania danych do internetu i chmury.
+                </p>
+
+                <div class="cta-group d-flex flex-wrap align-items-center gap-3" data-aos="zoom-in" data-aos-delay="220">
+                  <a href="https://forms.gle/grQfb31PTHeBqErj9" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+                    Wyświetl formularz
+                    <i class="bi bi-arrow-right ms-2"></i>
+                  </a>
+                  <span class="meta-note">Zajmie 3-5 minut.</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-5">
+              <div class="hero-media" data-aos="fade-left" data-aos-delay="160">
+                <img src="./1772617963247.png" alt="Osoba pracujaca z laptopem na tle nocnego nieba" loading="lazy" decoding="async" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a class="hero-arrow" href="#what" aria-label="Przewiń do: Co dostajesz">
+          <i class="bi bi-arrow-down"></i>
+        </a>
+      </section>
+
+      <section id="what" class="section light-background">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Co dostajesz</h2>
+          <p>Krótko, konkretnie, bez chmury.</p>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="80">
+          <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+              <div class="skill-item" style="height: 100%;">
+                <i class="bi bi-laptop"></i>
+                <h3>AI lokalnie</h3>
+                <p>Działające AI na laptopie lub serwerze.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="skill-item" style="height: 100%;">
+                <i class="bi bi-shield-lock"></i>
+                <h3>Prywatność</h3>
+                <p>Poufne informacje zostają u Ciebie. Bez wysyłania do chmury.</p>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+              <div class="skill-item" style="height: 100%;">
+                <i class="bi bi-signpost"></i>
+                <h3>Wdrożenie</h3>
+                <p>Start bez doświadczenia: prowadzimy krok po kroku.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a class="what-arrow" href="#how" aria-label="Przewiń do: Jak to działa">
+          <i class="bi bi-arrow-down"></i>
+        </a>
+      </section>
+
+      <section id="how" class="faq section">
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Jak to działa</h2>
+          <p>Trzy kroki do AI lokalnie.</p>
+        </div>
+
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+          <div class="row justify-content-center">
+            <div class="col-lg-9">
+              <div class="faq-wrapper">
+
+                <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="150">
+                  <div class="faq-header">
+                    <span class="faq-number">01</span>
+                    <h4>Zobacz co potrzebujemy na start</h4>
+                  </div>
+                  <div class="faq-content">
+                    <div class="content-inner">
+                      <p>Krótki opis celu i sprzętu. Zajmie 3-5 minut.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="200">
+                  <div class="faq-header">
+                    <span class="faq-number">02</span>
+                    <h4>Porozmawiaj wstępnie</h4>
+                  </div>
+                  <div class="faq-content">
+                    <div class="content-inner">
+                      <p>Ustalamy zakres i kolejne kroki.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="faq-item faq-active" data-aos="fade-up" data-aos-delay="250">
+                  <div class="faq-header">
+                    <span class="faq-number">03</span>
+                    <h4>Wdrożenie (90 minut)</h4>
+                  </div>
+                  <div class="faq-content">
+                    <div class="content-inner">
+                      <p>Daj się poprowadzić i zacznij korzystać z AI lokalnie.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="bottom-cta text-center" data-aos="zoom-in" data-aos-delay="140">
+                <a href="https://forms.gle/grQfb31PTHeBqErj9" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+                  Wyświetl formularz
+                  <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+                <div class="meta-note mt-2">Zajmie 3-5 minut.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="container text-center">
+        <div class="copyright">
+          <p>&copy; <span>ailokalnie.pl</span></p>
+        </div>
+      </div>
+    </footer>
+
+
+    <script src="./static/js/bootstrap.bundle.min.js"></script>
+    <script src="./static/js/aos.js"></script>
+    <script src="./static/js/main.js"></script>
+    <script>
+      AOS.init({
+        duration: 600,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false,
+      });
+
+      (function () {
+        const key = 'tone';
+        const root = document.documentElement;
+        const btn = document.getElementById('toneToggle');
+        if (!btn) return;
+
+        const apply = (tone) => {
+          if (tone === 'sepia') root.setAttribute('data-tone', 'sepia');
+          else root.removeAttribute('data-tone');
+          const pressed = tone === 'sepia';
+          btn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+        };
+
+        const saved = (function () {
+          try {
+            return localStorage.getItem(key);
+          } catch {
+            return null;
+          }
+        })();
+
+        apply(saved === 'sepia' ? 'sepia' : 'default');
+
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const current = root.getAttribute('data-tone') === 'sepia' ? 'sepia' : 'default';
+          const next = current === 'sepia' ? 'default' : 'sepia';
+          apply(next);
+          try {
+            localStorage.setItem(key, next === 'sepia' ? 'sepia' : '');
+          } catch {}
+        });
+      })();
+
+      (function () {
+        // Smooth anchor scroll with mid-viewport landing.
+        document.addEventListener('click', (e) => {
+          const a = e.target.closest('a[href^="#"]');
+          if (!a) return;
+          const href = a.getAttribute('href');
+          if (!href || href === '#') return;
+          const id = href.slice(1);
+          const el = document.getElementById(id);
+          if (!el) return;
+
+          e.preventDefault();
+
+          const r = el.getBoundingClientRect();
+          const absoluteTop = window.scrollY + r.top;
+          const targetY = Math.max(0, absoluteTop - (window.innerHeight * 0.25));
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        });
+
+        const update = () => {
+          const vh = window.innerHeight || document.documentElement.clientHeight;
+          const what = document.getElementById('what');
+          const how = document.getElementById('how');
+          const arrow = what ? what.querySelector('.what-arrow') : null;
+          if (!what || !how || !arrow) return;
+
+          const wr = what.getBoundingClientRect();
+          const hr = how.getBoundingClientRect();
+
+          // Show while viewport center is inside #what.
+          const centerY = vh * 0.45;
+          const centerInWhat = wr.top <= centerY && wr.bottom >= centerY;
+
+          // Hide as soon as the next section enters the viewport.
+          // Hide earlier: as soon as next section is near the viewport.
+          const howEntering = hr.top <= (vh * 1.15);
+
+          // Additional guard: if the user has scrolled down a bit within #what,
+          // we want the arrow to disappear very quickly once #how is near.
+          const show = centerInWhat && !howEntering;
+          arrow.style.opacity = show ? '1' : '0';
+          arrow.style.pointerEvents = show ? 'auto' : 'none';
+
+          // Hero arrow: visible at top, fades away on very first scroll.
+          const hero = document.getElementById('hero');
+          const heroArrow = hero ? hero.querySelector('.hero-arrow') : null;
+          if (hero && heroArrow) {
+            const hr = hero.getBoundingClientRect();
+            const heroVisible = hr.bottom > 0 && hr.top < vh;
+            const scrolledPx = Math.max(0, -hr.top);
+            const fadeEnd = 10;
+            const showHero = heroVisible && scrolledPx < fadeEnd;
+            heroArrow.style.opacity = showHero ? '1' : '0';
+            heroArrow.style.pointerEvents = showHero ? 'auto' : 'none';
+          }
+        };
+
+        const what = document.getElementById('what');
+        const how = document.getElementById('how');
+        const arrow = what ? what.querySelector('.what-arrow') : null;
+        if (arrow && how) {
+          arrow.addEventListener('click', (e) => {
+            e.preventDefault();
+            how.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+
+        const hero = document.getElementById('hero');
+        const heroArrow = hero ? hero.querySelector('.hero-arrow') : null;
+        if (heroArrow && what) {
+          heroArrow.addEventListener('click', (e) => {
+            e.preventDefault();
+            what.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        }
+
+        let raf = 0;
+        const schedule = () => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            raf = 0;
+            update();
+          });
+        };
+
+        window.addEventListener('scroll', schedule, { passive: true });
+        window.addEventListener('resize', schedule);
+        schedule();
+      })();
+    </script>
+  </body>
+</html>
